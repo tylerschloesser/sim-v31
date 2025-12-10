@@ -85,6 +85,17 @@ export function usePointerInput(
       pointerDownTime.current = null
     }
 
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault()
+    }
+
+    document.addEventListener(
+      'touchstart',
+      handleTouchStart,
+      {
+        passive: false,
+      },
+    )
     document.addEventListener(
       'pointerdown',
       handlePointerDown,
@@ -100,6 +111,10 @@ export function usePointerInput(
     )
 
     return () => {
+      document.removeEventListener(
+        'touchstart',
+        handleTouchStart,
+      )
       document.removeEventListener(
         'pointerdown',
         handlePointerDown,
