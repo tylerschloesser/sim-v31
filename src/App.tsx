@@ -4,7 +4,7 @@ import { useGameLoop } from './hooks/useGameLoop'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 
 const TILE_SIZE = 32
-const PLAYER_SPEED = 200
+const PLAYER_SPEED = 6 // tiles per second
 const PLAYER_RADIUS = 16
 const DOT_RADIUS = 2
 const DOT_COLOR = '#475569'
@@ -59,13 +59,14 @@ export function App() {
   const screenCenterX = width / 2
   const screenCenterY = height / 2
 
+  const playerPixelX = state.player.position.x * TILE_SIZE
+  const playerPixelY = state.player.position.y * TILE_SIZE
+
   const gridOffsetX =
-    ((-state.player.position.x + screenCenterX) %
-      TILE_SIZE) -
+    ((-playerPixelX + screenCenterX) % TILE_SIZE) -
     TILE_SIZE
   const gridOffsetY =
-    ((-state.player.position.y + screenCenterY) %
-      TILE_SIZE) -
+    ((-playerPixelY + screenCenterY) % TILE_SIZE) -
     TILE_SIZE
 
   return (
@@ -103,6 +104,16 @@ export function App() {
         r={PLAYER_RADIUS}
         fill={PLAYER_COLOR}
       />
+      <text
+        x={16}
+        y={32}
+        fill="#94a3b8"
+        fontSize={14}
+        fontFamily="monospace"
+      >
+        {Math.round(state.player.position.x)},{' '}
+        {Math.round(state.player.position.y)}
+      </text>
     </svg>
   )
 }
