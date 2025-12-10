@@ -108,16 +108,50 @@ export function App() {
         r={PLAYER_RADIUS}
         fill={PLAYER_COLOR}
       />
-      {state.doubleTapDrag && (
-        <line
-          x1={screenCenterX}
-          y1={screenCenterY}
-          x2={screenCenterX + state.doubleTapDrag.dx}
-          y2={screenCenterY + state.doubleTapDrag.dy}
-          stroke={PLAYER_COLOR}
-          strokeWidth={2}
-        />
-      )}
+      {state.doubleTapDrag &&
+        (() => {
+          // Target tile in world coordinates
+          const targetTileX = Math.round(
+            state.player.position.x +
+              state.doubleTapDrag.dx / TILE_SIZE,
+          )
+          const targetTileY = Math.round(
+            state.player.position.y +
+              state.doubleTapDrag.dy / TILE_SIZE,
+          )
+          // Convert to screen coordinates (tile center relative to player)
+          const rectScreenX =
+            screenCenterX +
+            (targetTileX - state.player.position.x) *
+              TILE_SIZE -
+            TILE_SIZE / 2
+          const rectScreenY =
+            screenCenterY +
+            (targetTileY - state.player.position.y) *
+              TILE_SIZE -
+            TILE_SIZE / 2
+          return (
+            <>
+              <rect
+                x={rectScreenX}
+                y={rectScreenY}
+                width={TILE_SIZE}
+                height={TILE_SIZE}
+                fill="none"
+                stroke={PLAYER_COLOR}
+                strokeWidth={2}
+              />
+              <line
+                x1={screenCenterX}
+                y1={screenCenterY}
+                x2={screenCenterX + state.doubleTapDrag.dx}
+                y2={screenCenterY + state.doubleTapDrag.dy}
+                stroke={PLAYER_COLOR}
+                strokeWidth={2}
+              />
+            </>
+          )
+        })()}
       <text
         x={16}
         y={32}
