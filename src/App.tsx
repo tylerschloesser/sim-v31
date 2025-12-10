@@ -1,7 +1,108 @@
+import { useCallback } from 'react'
+import { useImmer } from 'use-immer'
+import { useGameLoop } from './hooks/useGameLoop'
+import { useKeyboardInput } from './hooks/useKeyboardInput'
+
+const TILE_SIZE = 32
+const PLAYER_SPEED = 200
+const PLAYER_RADIUS = 16
+const DOT_RADIUS = 2
+const DOT_COLOR = '#475569'
+const PLAYER_COLOR = '#38bdf8'
+const BG_COLOR = '#0f172a'
+
+interface AppState {
+  player: {
+    position: { x: number; y: number }
+  }
+}
+
 export function App() {
+  const [state, updateState] = useImmer<AppState>({
+    player: {
+      position: { x: 0, y: 0 },
+    },
+  })
+
+  const keyboard = useKeyboardInput()
+
+  const gameLoopCallback = useCallback(
+    (deltaTime: number) => {
+      let dx = 0
+      let dy = 0
+
+      if (keyboard.isPressed('w')) dy -= 1
+      if (keyboard.isPressed('s')) dy += 1
+      if (keyboard.isPressed('a')) dx -= 1
+      if (keyboard.isPressed('d')) dx += 1
+
+      if (dx === 0 && dy === 0) return
+
+      const magnitude = Math.sqrt(dx * dx + dy * dy)
+      dx /= magnitude
+      dy /= magnitude
+
+      const distance = PLAYER_SPEED * deltaTime
+
+      updateState((draft) => {
+        draft.player.position.x += dx * distance
+        draft.player.position.y += dy * distance
+      })
+    },
+    [keyboard, updateState],
+  )
+
+  useGameLoop(gameLoopCallback)
+
+  const width = window.innerWidth
+  const height = window.innerHeight
+  const screenCenterX = width / 2
+  const screenCenterY = height / 2
+
+  const gridOffsetX =
+    ((-state.player.position.x + screenCenterX) %
+      TILE_SIZE) -
+    TILE_SIZE
+  const gridOffsetY =
+    ((-state.player.position.y + screenCenterY) %
+      TILE_SIZE) -
+    TILE_SIZE
+
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello World
-    </h1>
+    <svg
+      width={width}
+      height={height}
+      style={{ backgroundColor: BG_COLOR }}
+    >
+      <defs>
+        <pattern
+          id="dot-grid"
+          width={TILE_SIZE}
+          height={TILE_SIZE}
+          patternUnits="userSpaceOnUse"
+          patternTransform={`translate(${gridOffsetX}, ${gridOffsetY})`}
+        >
+          <circle
+            cx={TILE_SIZE / 2}
+            cy={TILE_SIZE / 2}
+            r={DOT_RADIUS}
+            fill={DOT_COLOR}
+          />
+        </pattern>
+      </defs>
+      <rect
+        x={0}
+        y={0}
+        width={width}
+        height={height}
+        fill="url(#dot-grid)"
+      />
+      <circle
+        cx={screenCenterX}
+        cy={screenCenterY}
+        r={PLAYER_RADIUS}
+        fill={PLAYER_COLOR}
+      />
+    </svg>
   )
 }
