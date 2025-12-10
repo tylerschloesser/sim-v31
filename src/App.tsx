@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useImmer } from 'use-immer'
 import { useGameLoop } from './hooks/useGameLoop'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
+import { usePointerInput } from './hooks/usePointerInput'
 
 const TILE_SIZE = 32
 const PLAYER_SPEED = 6 // tiles per second
@@ -25,16 +26,23 @@ export function App() {
   })
 
   const keyboard = useKeyboardInput()
+  const pointer = usePointerInput()
 
   const gameLoopCallback = useCallback(
     (deltaTime: number) => {
       let dx = 0
       let dy = 0
 
+      // Keyboard input
       if (keyboard.isPressed('w')) dy -= 1
       if (keyboard.isPressed('s')) dy += 1
       if (keyboard.isPressed('a')) dx -= 1
       if (keyboard.isPressed('d')) dx += 1
+
+      // Pointer/touch input
+      const pointerDir = pointer.getDirection()
+      dx += pointerDir.dx
+      dy += pointerDir.dy
 
       if (dx === 0 && dy === 0) return
 
@@ -49,7 +57,7 @@ export function App() {
         draft.player.position.y += dy * distance
       })
     },
-    [keyboard, updateState],
+    [keyboard, pointer, updateState],
   )
 
   useGameLoop(gameLoopCallback)
