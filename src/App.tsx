@@ -3,6 +3,7 @@ import { useImmer } from 'use-immer'
 import { useGameLoop } from './hooks/useGameLoop'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 import { usePointerInput } from './hooks/usePointerInput'
+import type { AppState } from './types/state'
 
 const TILE_SIZE = 32
 const PLAYER_SPEED = 6 // tiles per second
@@ -12,21 +13,16 @@ const DOT_COLOR = '#475569'
 const PLAYER_COLOR = '#38bdf8'
 const BG_COLOR = '#0f172a'
 
-interface AppState {
-  player: {
-    position: { x: number; y: number }
-  }
-}
-
 export function App() {
   const [state, updateState] = useImmer<AppState>({
     player: {
       position: { x: 0, y: 0 },
     },
+    doubleTapDrag: null,
   })
 
   const keyboard = useKeyboardInput()
-  const pointer = usePointerInput()
+  const pointer = usePointerInput(updateState)
 
   const gameLoopCallback = useCallback(
     (deltaTime: number) => {
@@ -112,6 +108,16 @@ export function App() {
         r={PLAYER_RADIUS}
         fill={PLAYER_COLOR}
       />
+      {state.doubleTapDrag && (
+        <line
+          x1={screenCenterX}
+          y1={screenCenterY}
+          x2={screenCenterX + state.doubleTapDrag.dx}
+          y2={screenCenterY + state.doubleTapDrag.dy}
+          stroke={PLAYER_COLOR}
+          strokeWidth={2}
+        />
+      )}
       <text
         x={16}
         y={32}
