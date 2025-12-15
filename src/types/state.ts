@@ -1,5 +1,8 @@
+export type EntityType = 'tree'
+
 export interface Entity {
   id: string
+  type: EntityType
   x: number
   y: number
   width: number
