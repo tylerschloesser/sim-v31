@@ -1,4 +1,9 @@
-import { useEffect, useRef } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react'
 import type { Updater } from 'use-immer'
 import type { AppState } from '../types/state'
 
@@ -135,7 +140,7 @@ export function usePointerInput(
     }
   }, [updateState])
 
-  const getDirection = () => {
+  const getDirection = useCallback(() => {
     // No movement during double-tap drag
     if (isDoubleTapDrag.current) {
       return { dx: 0, dy: 0 }
@@ -160,7 +165,7 @@ export function usePointerInput(
       dx: deltaX / distance,
       dy: deltaY / distance,
     }
-  }
+  }, [])
 
-  return { getDirection }
+  return useMemo(() => ({ getDirection }), [getDirection])
 }
