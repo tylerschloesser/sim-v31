@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useImmer } from 'use-immer'
+import { EntityContainer } from './components/EntityContainer'
 import { TargetIndicator } from './components/TargetIndicator'
 import {
   BG_COLOR,
@@ -104,13 +105,7 @@ export function App() {
         })`}
       >
         {Object.values(state.entities).map((entity) => (
-          <rect
-            x={entity.x * TILE_SIZE}
-            y={entity.y * TILE_SIZE}
-            width={entity.width * TILE_SIZE}
-            height={entity.height * TILE_SIZE}
-            fill="green"
-          />
+          <EntityContainer entity={entity} />
         ))}
       </g>
       <text
