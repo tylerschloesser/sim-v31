@@ -1,12 +1,17 @@
 import type { Updater } from 'use-immer'
 import type { AppState } from '../types/state'
+import { invariant } from '../utils/invariant'
 
 const PLAYER_SPEED = 6 // tiles per second
 
 interface GameLoopDeps {
   keyboard: { isPressed: (key: string) => boolean }
   pointer: {
-    getDirection: () => { dx: number; dy: number }
+    getDirection: () => {
+      dx: number
+      dy: number
+      distance: number
+    }
   }
   updateState: Updater<AppState>
 }
@@ -30,7 +35,15 @@ export function createGameLoopCallback(deps: GameLoopDeps) {
       const pointerDir = pointer.getDirection()
       dx += pointerDir.dx
       dy += pointerDir.dy
-      speed = PLAYER_SPEED
+      speed =
+        pointerDir.distance > 0
+          ? Math.pow(
+              pointerDir.distance * 0.05 + 1,
+              1.125,
+            ) - 1
+          : 0
+      speed = Math.min(speed, PLAYER_SPEED * 10)
+      invariant(speed >= 0, 'speed < 0')
     } else {
       speed = PLAYER_SPEED
     }
