@@ -93,6 +93,25 @@ export function App() {
           doubleTapDrag={state.doubleTapDrag}
         />
       )}
+      <g
+        transform={`translate(${
+          screenCenterX +
+          -state.player.position.x * TILE_SIZE
+        } ${
+          screenCenterY +
+          -state.player.position.y * TILE_SIZE
+        })`}
+      >
+        {Object.values(state.entities).map((entity) => (
+          <rect
+            x={entity.x * TILE_SIZE}
+            y={entity.y * TILE_SIZE}
+            width={entity.width * TILE_SIZE}
+            height={entity.height * TILE_SIZE}
+            fill="green"
+          />
+        ))}
+      </g>
       <text
         x={16}
         y={32}
