@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 interface KeyboardState {
   isPressed: (key: string) => boolean
@@ -25,8 +25,11 @@ export function useKeyboardInput(): KeyboardState {
     }
   }, [])
 
-  return {
-    isPressed: (key: string) =>
-      pressedKeys.current.has(key.toLowerCase()),
-  }
+  return useMemo(
+    () => ({
+      isPressed: (key: string) =>
+        pressedKeys.current.has(key.toLowerCase()),
+    }),
+    [pressedKeys],
+  )
 }
