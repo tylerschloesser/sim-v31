@@ -81,14 +81,6 @@ export function App() {
         height={height}
         fill="url(#dot-grid)"
       />
-      {state.doubleTapDrag && (
-        <TargetIndicator
-          screenCenterX={screenCenterX}
-          screenCenterY={screenCenterY}
-          playerPosition={state.player.position}
-          doubleTapDrag={state.doubleTapDrag}
-        />
-      )}
       <g
         transform={`translate(${
           screenCenterX +
@@ -110,6 +102,12 @@ export function App() {
           r={PLAYER_RADIUS}
           fill={PLAYER_COLOR}
         />
+        {state.doubleTapDrag && (
+          <TargetIndicator
+            playerPosition={state.player.position}
+            doubleTapDrag={state.doubleTapDrag}
+          />
+        )}
       </g>
       <text
         x={16}
