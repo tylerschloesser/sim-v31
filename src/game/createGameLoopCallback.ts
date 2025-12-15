@@ -24,11 +24,15 @@ export function createGameLoopCallback(deps: GameLoopDeps) {
     if (keyboard.isPressed('a')) dx -= 1
     if (keyboard.isPressed('d')) dx += 1
 
+    let speed
     if (dx === 0 && dy === 0) {
       // Pointer/touch input
       const pointerDir = pointer.getDirection()
       dx += pointerDir.dx
       dy += pointerDir.dy
+      speed = PLAYER_SPEED
+    } else {
+      speed = PLAYER_SPEED
     }
 
     if (dx === 0 && dy === 0) return
@@ -37,7 +41,7 @@ export function createGameLoopCallback(deps: GameLoopDeps) {
     dx /= magnitude
     dy /= magnitude
 
-    const distance = PLAYER_SPEED * deltaTime
+    const distance = speed * deltaTime
 
     updateState((draft) => {
       draft.player.position.x += dx * distance
