@@ -5,6 +5,7 @@ export function useInitialState(): AppState {
     player: {
       position: { x: 0, y: 0 },
     },
+    entities: {},
     doubleTapDrag: null,
   }
 }
