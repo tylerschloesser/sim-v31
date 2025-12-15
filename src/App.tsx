@@ -81,12 +81,6 @@ export function App() {
         height={height}
         fill="url(#dot-grid)"
       />
-      <circle
-        cx={screenCenterX}
-        cy={screenCenterY}
-        r={PLAYER_RADIUS}
-        fill={PLAYER_COLOR}
-      />
       {state.doubleTapDrag && (
         <TargetIndicator
           screenCenterX={screenCenterX}
@@ -107,6 +101,12 @@ export function App() {
         {Object.values(state.entities).map((entity) => (
           <EntityContainer entity={entity} />
         ))}
+        <circle
+          cx={state.player.position.x * TILE_SIZE}
+          cy={state.player.position.y * TILE_SIZE}
+          r={PLAYER_RADIUS}
+          fill={PLAYER_COLOR}
+        />
       </g>
       <text
         x={16}
