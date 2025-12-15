@@ -24,5 +24,6 @@ export function useInitialState(): AppState {
     nextEntityId,
     entities,
     doubleTapDrag: null,
+    selectedEntityId: null,
   }
 }

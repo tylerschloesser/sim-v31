@@ -94,6 +94,7 @@ export function App() {
           <EntityContainer
             key={entity.id}
             entity={entity}
+            selected={state.selectedEntityId === entity.id}
           />
         ))}
         <circle

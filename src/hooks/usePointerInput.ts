@@ -5,6 +5,7 @@ import {
   useRef,
 } from 'react'
 import type { Updater } from 'use-immer'
+import { TILE_SIZE } from '../constants'
 import type { AppState } from '../types/state'
 
 interface PointerState {
@@ -91,6 +92,29 @@ export function usePointerInput(
       // Reset double-tap drag
       if (isDoubleTapDrag.current) {
         updateState((draft) => {
+          if (draft.doubleTapDrag) {
+            const targetPositionX =
+              draft.player.position.x +
+              draft.doubleTapDrag.dx / TILE_SIZE
+            const targetPositionY =
+              draft.player.position.y +
+              draft.doubleTapDrag.dy / TILE_SIZE
+            const targetTileX = Math.floor(targetPositionX)
+            const targetTileY = Math.floor(targetPositionY)
+
+            for (const entity of Object.values(
+              draft.entities,
+            )) {
+              if (
+                entity.x === targetTileX &&
+                entity.y === targetTileY
+              ) {
+                draft.selectedEntityId = entity.id
+                break
+              }
+            }
+          }
+
           draft.doubleTapDrag = null
         })
       }
