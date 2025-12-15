@@ -1,19 +1,20 @@
 import { useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { TargetIndicator } from './components/TargetIndicator'
+import {
+  BG_COLOR,
+  DOT_COLOR,
+  DOT_RADIUS,
+  PLAYER_COLOR,
+  PLAYER_RADIUS,
+  TILE_SIZE,
+} from './constants'
 import { createGameLoopCallback } from './game/createGameLoopCallback'
 import { useGameLoop } from './hooks/useGameLoop'
 import { useInitialState } from './hooks/useInitialState'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 import { usePointerInput } from './hooks/usePointerInput'
 import type { AppState } from './types/state'
-
-const TILE_SIZE = 32
-const PLAYER_RADIUS = 16
-const DOT_RADIUS = 2
-const DOT_COLOR = '#475569'
-const PLAYER_COLOR = '#38bdf8'
-const BG_COLOR = '#0f172a'
 
 export function App() {
   const initialState = useInitialState()
