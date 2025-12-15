@@ -54,6 +54,7 @@ export function usePointerInput(
       ) {
         isDoubleTapDrag.current = true
         updateState((draft) => {
+          draft.selectedEntityId = null
           draft.doubleTapDrag = { dx: 0, dy: 0 }
         })
       }
