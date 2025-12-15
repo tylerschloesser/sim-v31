@@ -1,13 +1,13 @@
-import { useCallback } from 'react'
+import { useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { TargetIndicator } from './components/TargetIndicator'
+import { createGameLoopCallback } from './game/createGameLoopCallback'
 import { useGameLoop } from './hooks/useGameLoop'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 import { usePointerInput } from './hooks/usePointerInput'
 import type { AppState } from './types/state'
 
 const TILE_SIZE = 32
-const PLAYER_SPEED = 6 // tiles per second
 const PLAYER_RADIUS = 16
 const DOT_RADIUS = 2
 const DOT_COLOR = '#475569'
@@ -25,35 +25,13 @@ export function App() {
   const keyboard = useKeyboardInput()
   const pointer = usePointerInput(updateState)
 
-  const gameLoopCallback = useCallback(
-    (deltaTime: number) => {
-      let dx = 0
-      let dy = 0
-
-      // Keyboard input
-      if (keyboard.isPressed('w')) dy -= 1
-      if (keyboard.isPressed('s')) dy += 1
-      if (keyboard.isPressed('a')) dx -= 1
-      if (keyboard.isPressed('d')) dx += 1
-
-      // Pointer/touch input
-      const pointerDir = pointer.getDirection()
-      dx += pointerDir.dx
-      dy += pointerDir.dy
-
-      if (dx === 0 && dy === 0) return
-
-      const magnitude = Math.sqrt(dx * dx + dy * dy)
-      dx /= magnitude
-      dy /= magnitude
-
-      const distance = PLAYER_SPEED * deltaTime
-
-      updateState((draft) => {
-        draft.player.position.x += dx * distance
-        draft.player.position.y += dy * distance
-      })
-    },
+  const gameLoopCallback = useMemo(
+    () =>
+      createGameLoopCallback({
+        keyboard,
+        pointer,
+        updateState,
+      }),
     [keyboard, pointer, updateState],
   )
 
