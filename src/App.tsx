@@ -99,7 +99,10 @@ export function App() {
         })`}
       >
         {Object.values(state.entities).map((entity) => (
-          <EntityContainer entity={entity} />
+          <EntityContainer
+            key={entity.id}
+            entity={entity}
+          />
         ))}
         <circle
           cx={state.player.position.x * TILE_SIZE}
