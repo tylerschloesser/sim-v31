@@ -52,6 +52,10 @@ export function App() {
     ((-playerPixelY + screenCenterY) % TILE_SIZE) -
     TILE_SIZE
 
+  const selectedEntity = state.selectedEntityId
+    ? state.entities[state.selectedEntityId]
+    : null
+
   return (
     <svg
       width={width}
@@ -97,6 +101,16 @@ export function App() {
             selected={state.selectedEntityId === entity.id}
           />
         ))}
+        {selectedEntity && (
+          <line
+            x1={state.player.position.x * TILE_SIZE}
+            y1={state.player.position.y * TILE_SIZE}
+            x2={(selectedEntity.x + 0.5) * TILE_SIZE}
+            y2={(selectedEntity.y + 0.5) * TILE_SIZE}
+            stroke="yellow"
+            strokeWidth={2}
+          />
+        )}
         <circle
           cx={state.player.position.x * TILE_SIZE}
           cy={state.player.position.y * TILE_SIZE}
