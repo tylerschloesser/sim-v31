@@ -24,10 +24,12 @@ export function createGameLoopCallback(deps: GameLoopDeps) {
     if (keyboard.isPressed('a')) dx -= 1
     if (keyboard.isPressed('d')) dx += 1
 
-    // Pointer/touch input
-    const pointerDir = pointer.getDirection()
-    dx += pointerDir.dx
-    dy += pointerDir.dy
+    if (dx === 0 && dy === 0) {
+      // Pointer/touch input
+      const pointerDir = pointer.getDirection()
+      dx += pointerDir.dx
+      dy += pointerDir.dy
+    }
 
     if (dx === 0 && dy === 0) return
 
