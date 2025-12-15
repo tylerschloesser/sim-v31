@@ -2,6 +2,7 @@ export interface AppState {
   player: {
     position: { x: number; y: number }
   }
+  nextEntityId: number
   entities: Record<
     string,
     {
