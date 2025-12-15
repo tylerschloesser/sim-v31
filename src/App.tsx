@@ -3,6 +3,7 @@ import { useImmer } from 'use-immer'
 import { TargetIndicator } from './components/TargetIndicator'
 import { createGameLoopCallback } from './game/createGameLoopCallback'
 import { useGameLoop } from './hooks/useGameLoop'
+import { useInitialState } from './hooks/useInitialState'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 import { usePointerInput } from './hooks/usePointerInput'
 import type { AppState } from './types/state'
@@ -15,12 +16,9 @@ const PLAYER_COLOR = '#38bdf8'
 const BG_COLOR = '#0f172a'
 
 export function App() {
-  const [state, updateState] = useImmer<AppState>({
-    player: {
-      position: { x: 0, y: 0 },
-    },
-    doubleTapDrag: null,
-  })
+  const initialState = useInitialState()
+  const [state, updateState] =
+    useImmer<AppState>(initialState)
 
   const keyboard = useKeyboardInput()
   const pointer = usePointerInput(updateState)
