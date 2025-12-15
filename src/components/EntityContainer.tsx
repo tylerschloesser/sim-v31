@@ -6,6 +6,8 @@ export interface EntityContainerProps {
   entity: Entity
 }
 
+const PADDING = TILE_SIZE * 0.25
+
 export const EntityContainer = React.memo(
   function EntityContainer({
     entity,
@@ -15,8 +17,10 @@ export const EntityContainer = React.memo(
         transform={`translate(${[entity.x * TILE_SIZE, entity.y * TILE_SIZE].join(' ')})`}
       >
         <rect
-          width={entity.width * TILE_SIZE}
-          height={entity.height * TILE_SIZE}
+          x={PADDING}
+          y={PADDING}
+          width={entity.width * TILE_SIZE - PADDING * 2}
+          height={entity.height * TILE_SIZE - PADDING * 2}
           fill="green"
           stroke="brown"
           strokeWidth={2}
