@@ -8,7 +8,17 @@ import type { Updater } from 'use-immer'
 import type { AppState } from '../types/state'
 
 interface PointerState {
-  getDirection: () => { dx: number; dy: number }
+  getDirection: () => {
+    dx: number
+    dy: number
+    distance: number
+  }
+}
+
+const EMPTY_DIRECTION = {
+  dx: 0,
+  dy: 0,
+  distance: 0,
 }
 
 const DRAG_THRESHOLD = 20 // pixels before movement triggers
@@ -143,11 +153,11 @@ export function usePointerInput(
   const getDirection = useCallback(() => {
     // No movement during double-tap drag
     if (isDoubleTapDrag.current) {
-      return { dx: 0, dy: 0 }
+      return EMPTY_DIRECTION
     }
 
     if (!startPos.current || !currentPos.current) {
-      return { dx: 0, dy: 0 }
+      return EMPTY_DIRECTION
     }
 
     const deltaX = currentPos.current.x - startPos.current.x
@@ -157,13 +167,14 @@ export function usePointerInput(
     )
 
     if (distance < DRAG_THRESHOLD) {
-      return { dx: 0, dy: 0 }
+      return EMPTY_DIRECTION
     }
 
     // Return normalized direction (same as WASD produces)
     return {
       dx: deltaX / distance,
       dy: deltaY / distance,
+      distance,
     }
   }, [])
 
