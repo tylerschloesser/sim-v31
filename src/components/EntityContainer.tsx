@@ -11,13 +11,17 @@ export const EntityContainer = React.memo(
     entity,
   }: EntityContainerProps) {
     return (
-      <rect
-        x={entity.x * TILE_SIZE}
-        y={entity.y * TILE_SIZE}
-        width={entity.width * TILE_SIZE}
-        height={entity.height * TILE_SIZE}
-        fill="green"
-      />
+      <g
+        transform={`translate(${[entity.x * TILE_SIZE, entity.y * TILE_SIZE].join(' ')})`}
+      >
+        <rect
+          width={entity.width * TILE_SIZE}
+          height={entity.height * TILE_SIZE}
+          fill="green"
+          stroke="brown"
+          strokeWidth={2}
+        />
+      </g>
     )
   },
 )
