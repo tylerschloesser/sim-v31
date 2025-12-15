@@ -45,13 +45,14 @@ export function usePointerInput(
 
     const handlePointerMove = (e: PointerEvent) => {
       if (startPos.current) {
+        const start = startPos.current
         currentPos.current = { x: e.clientX, y: e.clientY }
 
         if (isDoubleTapDrag.current) {
           updateState((draft) => {
             draft.doubleTapDrag = {
-              dx: e.clientX - startPos.current!.x,
-              dy: e.clientY - startPos.current!.y,
+              dx: e.clientX - start.x,
+              dy: e.clientY - start.y,
             }
           })
         }
