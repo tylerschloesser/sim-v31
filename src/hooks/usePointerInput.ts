@@ -143,6 +143,12 @@ export function usePointerInput(
     }
 
     const handleTouchStart = (e: TouchEvent) => {
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.closest('button')
+      ) {
+        return
+      }
       e.preventDefault()
     }
 
