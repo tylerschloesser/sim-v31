@@ -1,7 +1,7 @@
 import { useLatest } from 'ahooks'
 import { useMemo } from 'react'
 import invariant from 'tiny-invariant'
-import { useImmer } from 'use-immer'
+import { useImmer, type Updater } from 'use-immer'
 import { AppCanvas } from './components/AppCanvas'
 import { createGameLoopCallback } from './game/createGameLoopCallback'
 import { useGameLoop } from './hooks/useGameLoop'
@@ -36,14 +36,6 @@ export function App() {
   const width = window.innerWidth
   const height = window.innerHeight
 
-  const selectedEntity = useMemo(
-    () =>
-      state.selection
-        ? state.entities[state.selection.entityId]
-        : null,
-    [state],
-  )
-
   return (
     <>
       <div className="absolute">
@@ -64,23 +56,41 @@ export function App() {
         </div>
         <div className="absolute bottom-0 w-full">
           <div className="flex justify-center p-2">
-            {selectedEntity && (
-              <button
-                className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50"
-                onClick={() => {
-                  updateState((draft) => {
-                    invariant(draft.selection)
-                    draft.selection.mine = true
-                  })
-                }}
-                disabled={state.selection?.mine}
-              >
-                Mine
-              </button>
-            )}
+            <MineButton
+              state={state}
+              updateState={updateState}
+            />
           </div>
         </div>
       </div>
     </>
+  )
+}
+
+interface MineButtonProps {
+  state: AppState
+  updateState: Updater<AppState>
+}
+
+function MineButton({
+  state,
+  updateState,
+}: MineButtonProps) {
+  if (!state.selection) {
+    return null
+  }
+  return (
+    <button
+      className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50"
+      onClick={() => {
+        updateState((draft) => {
+          invariant(draft.selection)
+          draft.selection.mine = true
+        })
+      }}
+      disabled={state.selection?.mine}
+    >
+      Mine
+    </button>
   )
 }
