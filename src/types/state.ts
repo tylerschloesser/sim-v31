@@ -29,6 +29,12 @@ export interface EntitySelection {
   mine: boolean
 }
 
+export type MissionName =
+  | 'mine-5-stone'
+  | 'mine-1-iron'
+  | 'mine-1-coal'
+  | 'smelt-1-iron-plate'
+
 export interface AppState {
   tick: number
   player: {
