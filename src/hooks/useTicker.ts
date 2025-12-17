@@ -23,9 +23,7 @@ export function useTicker(updateState: Updater<AppState>) {
       while (deltaTime >= TICK_DURATION) {
         deltaTime -= TICK_DURATION
         lastTickTime.current += TICK_DURATION
-        updateStateRef.current((draft) => {
-          draft.tick += 1
-        })
+        updateStateRef.current(tick)
       }
     }
 
@@ -38,4 +36,8 @@ export function useTicker(updateState: Updater<AppState>) {
       }
     }
   }, [])
+}
+
+function tick(draft: AppState): void {
+  draft.tick += 1
 }
