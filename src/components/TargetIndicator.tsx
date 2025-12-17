@@ -1,7 +1,5 @@
+import { PLAYER_COLOR, TILE_SIZE } from '../constants'
 import type { DoubleTapDragPointer } from '../types/state'
-
-const TILE_SIZE = 32
-const PLAYER_COLOR = '#38bdf8'
 
 interface TargetIndicatorProps {
   playerPosition: { x: number; y: number }
