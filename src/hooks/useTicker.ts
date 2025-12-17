@@ -1,12 +1,12 @@
 import { useLatest } from 'ahooks'
 import { useEffect, useRef } from 'react'
-import invariant from 'tiny-invariant'
 import type { Updater } from 'use-immer'
 import { MINE_RATE, TICK_DURATION } from '../constants'
 import {
   isResourceEntity,
   type AppState,
 } from '../types/state'
+import { invariant } from '../utils/invariant'
 
 export function useTicker(updateState: Updater<AppState>) {
   const lastTickTime = useRef<number | null>(null)

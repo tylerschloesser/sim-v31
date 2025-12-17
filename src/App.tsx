@@ -1,6 +1,5 @@
 import { useLatest } from 'ahooks'
 import { useMemo } from 'react'
-import invariant from 'tiny-invariant'
 import { useImmer, type Updater } from 'use-immer'
 import { AppCanvas } from './components/AppCanvas'
 import { MINE_RATE } from './constants'
@@ -14,6 +13,7 @@ import {
   isResourceEntity,
   type AppState,
 } from './types/state'
+import { invariant } from './utils/invariant'
 
 export function App() {
   const initialState = useInitialState()
