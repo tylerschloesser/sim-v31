@@ -7,13 +7,29 @@ export interface EntityContainerProps {
   selected: boolean
 }
 
-const PADDING = TILE_SIZE * 0.25
+const PADDING = 4
 
 export const EntityContainer = React.memo(
   function EntityContainer({
     entity,
     selected,
   }: EntityContainerProps) {
+    let fill: string
+    switch (entity.type) {
+      case 'tree': {
+        fill = 'green'
+        break
+      }
+      case 'coal': {
+        fill = 'black'
+        break
+      }
+      case 'iron': {
+        fill = 'silver'
+        break
+      }
+    }
+
     return (
       <g
         transform={`translate(${[entity.x * TILE_SIZE, entity.y * TILE_SIZE].join(' ')})`}
@@ -31,8 +47,8 @@ export const EntityContainer = React.memo(
           y={PADDING}
           width={entity.width * TILE_SIZE - PADDING * 2}
           height={entity.height * TILE_SIZE - PADDING * 2}
-          fill="green"
-          stroke="brown"
+          fill={fill}
+          stroke="rgba(255, 255, 255, .5)"
           strokeWidth={2}
         />
       </g>

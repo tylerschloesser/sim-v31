@@ -9,13 +9,11 @@ export function useInitialState(): AppState {
     entities[entityId] = { id: entityId, ...entity }
   }
 
-  addEntity({
-    type: 'tree',
-    x: 2,
-    y: 2,
-    width: 1,
-    height: 1,
-  })
+  // prettier-ignore
+  {
+    addEntity({ type: 'tree', x: 2, y: 2, width: 1, height: 1 })
+    addEntity({ type: 'coal', x: -1, y: 3, width: 1, height: 1 })
+  }
 
   return {
     player: {
