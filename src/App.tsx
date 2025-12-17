@@ -2,6 +2,7 @@ import { useLatest } from 'ahooks'
 import { useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { EntityContainer } from './components/EntityContainer'
+import { JoystickContainer } from './components/JoystickContainer'
 import { TargetIndicator } from './components/TargetIndicator'
 import {
   BG_COLOR,
@@ -126,6 +127,9 @@ export function App() {
           />
         )}
       </g>
+      {state.pointer?.type === 'single-tap-drag' && (
+        <JoystickContainer pointer={state.pointer} />
+      )}
       <text
         x={16}
         y={32}
