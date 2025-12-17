@@ -15,6 +15,11 @@ export interface AppState {
   }
   nextEntityId: number
   entities: Record<string, Entity>
-  doubleTapDrag: { dx: number; dy: number } | null
+  doubleTapDrag: {
+    sx: number
+    sy: number
+    dx: number
+    dy: number
+  } | null
   selectedEntityId: string | null
 }

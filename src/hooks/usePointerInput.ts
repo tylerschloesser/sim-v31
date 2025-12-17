@@ -55,7 +55,12 @@ export function usePointerInput(
         isDoubleTapDrag.current = true
         updateState((draft) => {
           draft.selectedEntityId = null
-          draft.doubleTapDrag = { dx: 0, dy: 0 }
+          draft.doubleTapDrag = {
+            sx: e.clientX,
+            sy: e.clientY,
+            dx: 0,
+            dy: 0,
+          }
         })
       }
     }
@@ -68,6 +73,8 @@ export function usePointerInput(
         if (isDoubleTapDrag.current) {
           updateState((draft) => {
             draft.doubleTapDrag = {
+              sx: start.x,
+              sy: start.y,
               dx: e.clientX - start.x,
               dy: e.clientY - start.y,
             }
