@@ -1,26 +1,7 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import { useEffect, useRef } from 'react'
 import type { Updater } from 'use-immer'
 import { TILE_SIZE } from '../constants'
 import type { AppState } from '../types/state'
-
-interface PointerState {
-  getDirection: () => {
-    dx: number
-    dy: number
-    distance: number
-  }
-}
-
-const EMPTY_DIRECTION = {
-  dx: 0,
-  dy: 0,
-  distance: 0,
-}
 
 const DRAG_THRESHOLD = 20 // pixels before movement triggers
 const TAP_MAX_DURATION = 200 // ms - max time for a "tap" (down→up)
@@ -28,7 +9,7 @@ const DOUBLE_TAP_WINDOW = 300 // ms - max time between first tap end and second 
 
 export function usePointerInput(
   updateState: Updater<AppState>,
-): PointerState {
+): void {
   const startPos = useRef<{ x: number; y: number } | null>(
     null,
   )
@@ -64,24 +45,44 @@ export function usePointerInput(
         const start = startPos.current
         currentPos.current = { x: e.clientX, y: e.clientY }
 
+        const deltaX =
+          currentPos.current.x - startPos.current.x
+        const deltaY =
+          currentPos.current.y - startPos.current.y
+        const distance = Math.sqrt(
+          deltaX * deltaX + deltaY * deltaY,
+        )
+
         if (isDoubleTapDrag.current) {
-          const deltaX =
-            currentPos.current.x - startPos.current.x
-          const deltaY =
-            currentPos.current.y - startPos.current.y
-          const distance = Math.sqrt(
-            deltaX * deltaX + deltaY * deltaY,
-          )
-
-          if (distance < DRAG_THRESHOLD) {
-            return
-          }
-
           updateState((draft) => {
-            draft.pointer = {
-              type: 'double-tap-drag',
-              dx: e.clientX - start.x,
-              dy: e.clientY - start.y,
+            if (
+              distance >= DRAG_THRESHOLD ||
+              draft.pointer?.type === 'double-tap-drag'
+            ) {
+              draft.pointer = {
+                type: 'double-tap-drag',
+                dx: deltaX,
+                dy: deltaY,
+              }
+            } else {
+              draft.pointer = null
+            }
+          })
+        } else {
+          updateState((draft) => {
+            if (
+              distance >= DRAG_THRESHOLD ||
+              draft.pointer?.type === 'single-tap-drag'
+            ) {
+              draft.pointer = {
+                sx: start.x,
+                sy: start.y,
+                dx: deltaX,
+                dy: deltaY,
+                type: 'single-tap-drag',
+              }
+            } else {
+              draft.pointer = null
             }
           })
         }
@@ -102,37 +103,34 @@ export function usePointerInput(
         lastTapTime.current = null
       }
 
-      // Reset double-tap drag
-      if (isDoubleTapDrag.current) {
-        updateState((draft) => {
-          if (draft.pointer?.type === 'double-tap-drag') {
-            const targetPositionX =
-              draft.player.position.x +
-              draft.pointer.dx / TILE_SIZE
-            const targetPositionY =
-              draft.player.position.y +
-              draft.pointer.dy / TILE_SIZE
-            const targetTileX = Math.floor(targetPositionX)
-            const targetTileY = Math.floor(targetPositionY)
+      updateState((draft) => {
+        if (draft.pointer?.type === 'double-tap-drag') {
+          const targetPositionX =
+            draft.player.position.x +
+            draft.pointer.dx / TILE_SIZE
+          const targetPositionY =
+            draft.player.position.y +
+            draft.pointer.dy / TILE_SIZE
+          const targetTileX = Math.floor(targetPositionX)
+          const targetTileY = Math.floor(targetPositionY)
 
-            for (const entity of Object.values(
-              draft.entities,
-            )) {
-              if (
-                entity.x === targetTileX &&
-                entity.y === targetTileY
-              ) {
-                draft.selectedEntityId = entity.id
-                break
-              }
+          for (const entity of Object.values(
+            draft.entities,
+          )) {
+            if (
+              entity.x === targetTileX &&
+              entity.y === targetTileY
+            ) {
+              draft.selectedEntityId = entity.id
+              break
             }
           }
+        }
 
-          draft.pointer = null
-        })
-      }
+        draft.pointer = null
+      })
+
       isDoubleTapDrag.current = false
-
       startPos.current = null
       currentPos.current = null
       pointerDownTime.current = null
@@ -160,34 +158,4 @@ export function usePointerInput(
       document.removeEventListener('pointercancel', handlePointerUp)
     }
   }, [updateState])
-
-  const getDirection = useCallback(() => {
-    // No movement during double-tap drag
-    if (isDoubleTapDrag.current) {
-      return EMPTY_DIRECTION
-    }
-
-    if (!startPos.current || !currentPos.current) {
-      return EMPTY_DIRECTION
-    }
-
-    const deltaX = currentPos.current.x - startPos.current.x
-    const deltaY = currentPos.current.y - startPos.current.y
-    const distance = Math.sqrt(
-      deltaX * deltaX + deltaY * deltaY,
-    )
-
-    if (distance < DRAG_THRESHOLD) {
-      return EMPTY_DIRECTION
-    }
-
-    // Return normalized direction (same as WASD produces)
-    return {
-      dx: deltaX / distance,
-      dy: deltaY / distance,
-      distance,
-    }
-  }, [])
-
-  return useMemo(() => ({ getDirection }), [getDirection])
 }

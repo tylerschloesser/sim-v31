@@ -25,17 +25,16 @@ export function App() {
   const stateRef = useLatest(state)
 
   const keyboard = useKeyboardInput()
-  const pointer = usePointerInput(updateState)
+  usePointerInput(updateState)
 
   const gameLoopCallback = useMemo(
     () =>
       createGameLoopCallback({
         keyboard,
-        pointer,
         stateRef,
         updateState,
       }),
-    [keyboard, pointer, updateState],
+    [keyboard, stateRef, updateState],
   )
 
   useGameLoop(gameLoopCallback)

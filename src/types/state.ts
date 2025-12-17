@@ -17,6 +17,8 @@ export interface DoubleTapDragPointer {
 
 export interface SingleTapDragPointer {
   type: 'single-tap-drag'
+  sx: number
+  sy: number
   dx: number
   dy: number
 }
