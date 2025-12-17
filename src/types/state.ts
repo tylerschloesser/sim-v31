@@ -7,6 +7,7 @@ export interface Entity {
   y: number
   width: number
   height: number
+  playerMineProgress: number
 }
 
 export interface DoubleTapDragPointer {

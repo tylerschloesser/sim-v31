@@ -11,8 +11,8 @@ export function useInitialState(): AppState {
 
   // prettier-ignore
   {
-    addEntity({ type: 'tree', x: 2, y: 2, width: 1, height: 1 })
-    addEntity({ type: 'coal', x: -1, y: 3, width: 1, height: 1 })
+    addEntity({ type: 'tree', x: 2, y: 2, width: 1, height: 1, playerMineProgress: 0 })
+    addEntity({ type: 'coal', x: -1, y: 3, width: 1, height: 1, playerMineProgress: 0 })
   }
 
   return {
