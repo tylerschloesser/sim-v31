@@ -3,7 +3,10 @@ import { useEffect, useRef } from 'react'
 import invariant from 'tiny-invariant'
 import type { Updater } from 'use-immer'
 import { MINE_RATE, TICK_DURATION } from '../constants'
-import type { AppState } from '../types/state'
+import {
+  isResourceEntity,
+  type AppState,
+} from '../types/state'
 
 export function useTicker(updateState: Updater<AppState>) {
   const lastTickTime = useRef<number | null>(null)
@@ -46,6 +49,7 @@ function tick(draft: AppState): void {
     const selectedEntity =
       draft.entities[draft.selection.entityId]
 
+    invariant(isResourceEntity(selectedEntity))
     invariant(selectedEntity.playerMineProgress >= 0)
     invariant(selectedEntity.playerMineProgress < MINE_RATE)
 

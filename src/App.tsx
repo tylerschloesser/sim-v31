@@ -10,7 +10,10 @@ import { useInitialState } from './hooks/useInitialState'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 import { usePointerInput } from './hooks/usePointerInput'
 import { useTicker } from './hooks/useTicker'
-import type { AppState } from './types/state'
+import {
+  isResourceEntity,
+  type AppState,
+} from './types/state'
 
 export function App() {
   const initialState = useInitialState()
@@ -77,11 +80,15 @@ function MineButton({
   state,
   updateState,
 }: MineButtonProps) {
-  if (!state.selection) {
+  const selectedEntity = state.selection
+    ? state.entities[state.selection.entityId]
+    : null
+  if (
+    !selectedEntity ||
+    !isResourceEntity(selectedEntity)
+  ) {
     return null
   }
-  const selectedEntity =
-    state.entities[state.selection.entityId]
   return (
     <button
       className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50 relative"

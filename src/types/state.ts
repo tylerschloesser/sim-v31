@@ -1,13 +1,52 @@
-export type EntityType = 'tree' | 'coal' | 'iron' | 'stone'
+export type EntityType =
+  | 'tree'
+  | 'coal'
+  | 'iron'
+  | 'stone'
+  | 'furnace-placeholder'
 
-export interface Entity {
+interface EntityBase<T extends EntityType> {
   id: string
-  type: EntityType
+  type: T
   x: number
   y: number
   width: number
   height: number
+}
+
+interface ResourceEntityBase<
+  T extends EntityType,
+> extends EntityBase<T> {
   playerMineProgress: number
+}
+
+export type TreeEntity = ResourceEntityBase<'tree'>
+export type CoalEntity = ResourceEntityBase<'coal'>
+export type IronEntity = ResourceEntityBase<'iron'>
+export type StoneEntity = ResourceEntityBase<'stone'>
+
+export interface FurnacePlaceholderEntity extends EntityBase<'furnace-placeholder'> {}
+
+export type Entity =
+  | TreeEntity
+  | CoalEntity
+  | IronEntity
+  | StoneEntity
+  | FurnacePlaceholderEntity
+
+export function isResourceEntity(
+  entity: Entity,
+): entity is
+  | TreeEntity
+  | CoalEntity
+  | IronEntity
+  | StoneEntity {
+  return (
+    entity.type === 'tree' ||
+    entity.type === 'coal' ||
+    entity.type === 'iron' ||
+    entity.type === 'stone'
+  )
 }
 
 export interface DoubleTapDragPointer {

@@ -32,6 +32,10 @@ export const EntityContainer = React.memo(
         fill = 'silver'
         break
       }
+      case 'furnace-placeholder': {
+        fill = 'pink'
+        break
+      }
     }
 
     return (
@@ -40,8 +44,8 @@ export const EntityContainer = React.memo(
       >
         {selected && (
           <rect
-            width={TILE_SIZE}
-            height={TILE_SIZE}
+            width={TILE_SIZE * entity.width}
+            height={TILE_SIZE * entity.height}
             stroke="yellow"
             strokeWidth={2}
           />

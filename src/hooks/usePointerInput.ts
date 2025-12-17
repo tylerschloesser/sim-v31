@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import type { Updater } from 'use-immer'
 import { TILE_SIZE } from '../constants'
 import type { AppState } from '../types/state'
+import { findClosestEntity } from '../utils/pointer'
 
 const DRAG_THRESHOLD = 20 // pixels before movement triggers
 const TAP_MAX_DURATION = 200 // ms - max time for a "tap" (down→up)
@@ -118,21 +119,16 @@ export function usePointerInput(
           const targetPositionY =
             draft.player.position.y +
             draft.pointer.dy / TILE_SIZE
-          const targetTileX = Math.floor(targetPositionX)
-          const targetTileY = Math.floor(targetPositionY)
 
-          for (const entity of Object.values(
+          const closest = findClosestEntity(
             draft.entities,
-          )) {
-            if (
-              entity.x === targetTileX &&
-              entity.y === targetTileY
-            ) {
-              draft.selection = {
-                entityId: entity.id,
-                mine: false,
-              }
-              break
+            targetPositionX,
+            targetPositionY,
+          )
+          if (closest) {
+            draft.selection = {
+              entityId: closest.entity.id,
+              mine: false,
             }
           }
         }

@@ -8,8 +8,8 @@ export function findClosestEntity(
   let closest: ReturnType<typeof findClosestEntity> = null
 
   for (const entity of Object.values(entities)) {
-    const dx = entity.x - x
-    const dy = entity.y - y
+    const dx = entity.x + entity.width / 2 - x
+    const dy = entity.y + entity.height / 2 - y
     const distance = Math.sqrt(dx * dx + dy * dy)
     if (closest === null || distance < closest.distance) {
       closest = { entity, distance }
