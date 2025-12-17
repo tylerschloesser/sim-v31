@@ -5,7 +5,9 @@ import './index.css'
 import { initEruda } from './utils/eruda.ts'
 import { invariant } from './utils/invariant.ts'
 
-initEruda()
+if (localStorage.getItem('eruda') !== 'false') {
+  initEruda()
+}
 
 const container = document.getElementById('root')
 invariant(container)
