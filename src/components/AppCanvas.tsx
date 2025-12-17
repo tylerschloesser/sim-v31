@@ -102,12 +102,7 @@ export function AppCanvas({
           r={PLAYER_RADIUS}
           fill={PLAYER_COLOR}
         />
-        {state.pointer?.type === 'double-tap-drag' && (
-          <TargetIndicator
-            playerPosition={state.player.position}
-            pointer={state.pointer}
-          />
-        )}
+        <TargetIndicator state={state} />
       </g>
       {state.pointer?.type === 'single-tap-drag' && (
         <JoystickContainer pointer={state.pointer} />
