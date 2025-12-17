@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import invariant from 'tiny-invariant'
 import { useImmer, type Updater } from 'use-immer'
 import { AppCanvas } from './components/AppCanvas'
+import { MINE_RATE } from './constants'
 import { createGameLoopCallback } from './game/createGameLoopCallback'
 import { useGameLoop } from './hooks/useGameLoop'
 import { useInitialState } from './hooks/useInitialState'
@@ -79,9 +80,11 @@ function MineButton({
   if (!state.selection) {
     return null
   }
+  const selectedEntity =
+    state.entities[state.selection.entityId]
   return (
     <button
-      className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50"
+      className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50 relative"
       onClick={() => {
         updateState((draft) => {
           invariant(draft.selection)
@@ -90,7 +93,13 @@ function MineButton({
       }}
       disabled={state.selection?.mine}
     >
-      Mine
+      <span
+        className="absolute inset-0 bg-green-400 origin-left"
+        style={{
+          scale: `${selectedEntity.playerMineProgress / MINE_RATE} 1`,
+        }}
+      />
+      <span className="relative">Mine</span>
     </button>
   )
 }
