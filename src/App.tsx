@@ -7,6 +7,7 @@ import { useGameLoop } from './hooks/useGameLoop'
 import { useInitialState } from './hooks/useInitialState'
 import { useKeyboardInput } from './hooks/useKeyboardInput'
 import { usePointerInput } from './hooks/usePointerInput'
+import { useTicker } from './hooks/useTicker'
 import type { AppState } from './types/state'
 
 export function App() {
@@ -29,6 +30,7 @@ export function App() {
   )
 
   useGameLoop(gameLoopCallback)
+  useTicker(updateState)
 
   const width = window.innerWidth
   const height = window.innerHeight
@@ -51,6 +53,14 @@ export function App() {
         />
       </div>
       <div className="absolute w-full h-full pointer-events-none">
+        <div className="absolute top-0 font-mono text-xs">
+          <span>{state.tick}</span>
+          &middot;
+          <span>
+            {Math.floor(state.player.position.x)},
+            {Math.floor(state.player.position.y)}
+          </span>
+        </div>
         <div className="absolute bottom-0 w-full">
           <div className="flex justify-center">
             {selectedEntity && (
@@ -60,7 +70,7 @@ export function App() {
                   console.log('TODO', selectedEntity.type)
                 }}
               >
-                Test
+                Mine
               </button>
             )}
           </div>

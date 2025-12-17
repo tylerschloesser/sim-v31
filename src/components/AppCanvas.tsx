@@ -110,16 +110,6 @@ export function AppCanvas({
       {state.pointer?.type === 'single-tap-drag' && (
         <JoystickContainer pointer={state.pointer} />
       )}
-      <text
-        x={16}
-        y={32}
-        fill="#94a3b8"
-        fontSize={14}
-        fontFamily="monospace"
-      >
-        {Math.round(state.player.position.x)},{' '}
-        {Math.round(state.player.position.y)}
-      </text>
     </svg>
   )
 }

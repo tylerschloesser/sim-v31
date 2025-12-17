@@ -24,6 +24,7 @@ export interface SingleTapDragPointer {
 }
 
 export interface AppState {
+  tick: number
   player: {
     position: { x: number; y: number }
   }
