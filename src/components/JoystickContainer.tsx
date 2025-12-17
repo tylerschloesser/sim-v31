@@ -8,11 +8,13 @@ export function JoystickContainer({
   pointer,
 }: JoystickContainerProps) {
   return (
-    <circle
-      cx={pointer.sx}
-      cy={pointer.sy}
-      r={10}
-      fill="rgba(0, 0, 0, 0.5)"
-    />
+    <>
+      <circle
+        cx={pointer.sx}
+        cy={pointer.sy}
+        r={32}
+        fill="rgba(0, 0, 0, 0.5)"
+      />
+    </>
   )
 }
