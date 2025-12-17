@@ -23,7 +23,7 @@ export function useInitialState(): AppState {
     },
     nextEntityId,
     entities,
-    doubleTapDrag: null,
+    pointer: null,
     selectedEntityId: null,
   }
 }

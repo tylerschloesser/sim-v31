@@ -117,10 +117,10 @@ export function App() {
           r={PLAYER_RADIUS}
           fill={PLAYER_COLOR}
         />
-        {state.doubleTapDrag && (
+        {state.pointer?.type === 'double-tap-drag' && (
           <TargetIndicator
             playerPosition={state.player.position}
-            doubleTapDrag={state.doubleTapDrag}
+            pointer={state.pointer}
           />
         )}
       </g>

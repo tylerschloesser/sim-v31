@@ -55,9 +55,8 @@ export function usePointerInput(
         isDoubleTapDrag.current = true
         updateState((draft) => {
           draft.selectedEntityId = null
-          draft.doubleTapDrag = {
-            sx: e.clientX,
-            sy: e.clientY,
+          draft.pointer = {
+            type: 'double-tap-drag',
             dx: 0,
             dy: 0,
           }
@@ -72,9 +71,8 @@ export function usePointerInput(
 
         if (isDoubleTapDrag.current) {
           updateState((draft) => {
-            draft.doubleTapDrag = {
-              sx: start.x,
-              sy: start.y,
+            draft.pointer = {
+              type: 'double-tap-drag',
               dx: e.clientX - start.x,
               dy: e.clientY - start.y,
             }
@@ -100,13 +98,13 @@ export function usePointerInput(
       // Reset double-tap drag
       if (isDoubleTapDrag.current) {
         updateState((draft) => {
-          if (draft.doubleTapDrag) {
+          if (draft.pointer?.type === 'double-tap-drag') {
             const targetPositionX =
               draft.player.position.x +
-              draft.doubleTapDrag.dx / TILE_SIZE
+              draft.pointer.dx / TILE_SIZE
             const targetPositionY =
               draft.player.position.y +
-              draft.doubleTapDrag.dy / TILE_SIZE
+              draft.pointer.dy / TILE_SIZE
             const targetTileX = Math.floor(targetPositionX)
             const targetTileY = Math.floor(targetPositionY)
 
@@ -123,7 +121,7 @@ export function usePointerInput(
             }
           }
 
-          draft.doubleTapDrag = null
+          draft.pointer = null
         })
       }
       isDoubleTapDrag.current = false

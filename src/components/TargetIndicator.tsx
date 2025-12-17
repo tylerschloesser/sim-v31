@@ -1,20 +1,22 @@
+import type { DoubleTapDragPointer } from '../types/state'
+
 const TILE_SIZE = 32
 const PLAYER_COLOR = '#38bdf8'
 
 interface TargetIndicatorProps {
   playerPosition: { x: number; y: number }
-  doubleTapDrag: { dx: number; dy: number }
+  pointer: DoubleTapDragPointer
 }
 
 export function TargetIndicator({
   playerPosition,
-  doubleTapDrag,
+  pointer,
 }: TargetIndicatorProps) {
   // Target tile in world coordinates
   const targetPositionX =
-    playerPosition.x + doubleTapDrag.dx / TILE_SIZE
+    playerPosition.x + pointer.dx / TILE_SIZE
   const targetPositionY =
-    playerPosition.y + doubleTapDrag.dy / TILE_SIZE
+    playerPosition.y + pointer.dy / TILE_SIZE
 
   const targetTileX = Math.floor(targetPositionX)
   const targetTileY = Math.floor(targetPositionY)

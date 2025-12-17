@@ -9,17 +9,27 @@ export interface Entity {
   height: number
 }
 
+export interface DoubleTapDragPointer {
+  type: 'double-tap-drag'
+  dx: number
+  dy: number
+}
+
+export interface SingleTapDragPointer {
+  type: 'single-tap-drag'
+  dx: number
+  dy: number
+}
+
 export interface AppState {
   player: {
     position: { x: number; y: number }
   }
   nextEntityId: number
   entities: Record<string, Entity>
-  doubleTapDrag: {
-    sx: number
-    sy: number
-    dx: number
-    dy: number
-  } | null
+  pointer:
+    | SingleTapDragPointer
+    | DoubleTapDragPointer
+    | null
   selectedEntityId: string | null
 }
