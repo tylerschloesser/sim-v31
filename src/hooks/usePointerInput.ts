@@ -130,48 +130,22 @@ export function usePointerInput(
       e.preventDefault()
     }
 
-    document.addEventListener(
-      'touchstart',
-      handleTouchStart,
-      {
-        passive: false,
-      },
-    )
-    document.addEventListener(
-      'pointerdown',
-      handlePointerDown,
-    )
-    document.addEventListener(
-      'pointermove',
-      handlePointerMove,
-    )
-    document.addEventListener('pointerup', handlePointerUp)
-    document.addEventListener(
-      'pointercancel',
-      handlePointerUp,
-    )
+    // prettier-ignore
+    {
+      document.addEventListener('touchstart', handleTouchStart, { passive: false })
+      document.addEventListener('pointerdown', handlePointerDown)
+      document.addEventListener('pointermove', handlePointerMove)
+      document.addEventListener('pointerup', handlePointerUp)
+      document.addEventListener('pointercancel', handlePointerUp)
+    }
 
+    // prettier-ignore
     return () => {
-      document.removeEventListener(
-        'touchstart',
-        handleTouchStart,
-      )
-      document.removeEventListener(
-        'pointerdown',
-        handlePointerDown,
-      )
-      document.removeEventListener(
-        'pointermove',
-        handlePointerMove,
-      )
-      document.removeEventListener(
-        'pointerup',
-        handlePointerUp,
-      )
-      document.removeEventListener(
-        'pointercancel',
-        handlePointerUp,
-      )
+      document.removeEventListener('touchstart', handleTouchStart)
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('pointermove', handlePointerMove)
+      document.removeEventListener('pointerup', handlePointerUp)
+      document.removeEventListener('pointercancel', handlePointerUp)
     }
   }, [updateState])
 
