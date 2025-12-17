@@ -13,6 +13,8 @@ export function useInitialState(): AppState {
   {
     addEntity({ type: 'tree', x: 2, y: 2, width: 1, height: 1, playerMineProgress: 0 })
     addEntity({ type: 'coal', x: -1, y: 3, width: 1, height: 1, playerMineProgress: 0 })
+    addEntity({ type: 'stone', x: -2, y: -3, width: 1, height: 1, playerMineProgress: 0 })
+    addEntity({ type: 'iron', x: 4, y: -3, width: 1, height: 1, playerMineProgress: 0 })
   }
 
   return {

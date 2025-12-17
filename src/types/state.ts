@@ -1,4 +1,4 @@
-export type EntityType = 'tree' | 'coal' | 'iron'
+export type EntityType = 'tree' | 'coal' | 'iron' | 'stone'
 
 export interface Entity {
   id: string

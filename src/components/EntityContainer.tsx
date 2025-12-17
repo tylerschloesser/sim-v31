@@ -25,6 +25,10 @@ export const EntityContainer = React.memo(
         break
       }
       case 'iron': {
+        fill = 'cyan'
+        break
+      }
+      case 'stone': {
         fill = 'silver'
         break
       }
