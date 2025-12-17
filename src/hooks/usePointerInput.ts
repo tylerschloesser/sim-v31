@@ -55,11 +55,6 @@ export function usePointerInput(
         isDoubleTapDrag.current = true
         updateState((draft) => {
           draft.selectedEntityId = null
-          draft.pointer = {
-            type: 'double-tap-drag',
-            dx: 0,
-            dy: 0,
-          }
         })
       }
     }
@@ -70,6 +65,18 @@ export function usePointerInput(
         currentPos.current = { x: e.clientX, y: e.clientY }
 
         if (isDoubleTapDrag.current) {
+          const deltaX =
+            currentPos.current.x - startPos.current.x
+          const deltaY =
+            currentPos.current.y - startPos.current.y
+          const distance = Math.sqrt(
+            deltaX * deltaX + deltaY * deltaY,
+          )
+
+          if (distance < DRAG_THRESHOLD) {
+            return
+          }
+
           updateState((draft) => {
             draft.pointer = {
               type: 'double-tap-drag',
