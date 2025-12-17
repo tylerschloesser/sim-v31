@@ -30,5 +30,16 @@ export function App() {
 
   useGameLoop(gameLoopCallback)
 
-  return <AppCanvas state={state} />
+  const width = window.innerWidth
+  const height = window.innerHeight
+
+  return (
+    <>
+      <AppCanvas
+        state={state}
+        width={width}
+        height={height}
+      />
+    </>
+  )
 }

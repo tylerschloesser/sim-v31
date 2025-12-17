@@ -13,11 +13,15 @@ import { TargetIndicator } from './TargetIndicator'
 
 export interface AppCanvasProps {
   state: AppState
+  width: number
+  height: number
 }
 
-export function AppCanvas({ state }: AppCanvasProps) {
-  const width = window.innerWidth
-  const height = window.innerHeight
+export function AppCanvas({
+  state,
+  width,
+  height,
+}: AppCanvasProps) {
   const screenCenterX = width / 2
   const screenCenterY = height / 2
 
