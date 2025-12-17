@@ -1,7 +1,8 @@
 import { useLatest } from 'ahooks'
 import { useEffect, useRef } from 'react'
+import invariant from 'tiny-invariant'
 import type { Updater } from 'use-immer'
-import { TICK_DURATION } from '../constants'
+import { MINE_RATE, TICK_DURATION } from '../constants'
 import type { AppState } from '../types/state'
 
 export function useTicker(updateState: Updater<AppState>) {
@@ -40,4 +41,20 @@ export function useTicker(updateState: Updater<AppState>) {
 
 function tick(draft: AppState): void {
   draft.tick += 1
+
+  if (draft.selection?.mine) {
+    const selectedEntity =
+      draft.entities[draft.selection.entityId]
+
+    invariant(selectedEntity.playerMineProgress >= 0)
+    invariant(selectedEntity.playerMineProgress < MINE_RATE)
+
+    selectedEntity.playerMineProgress += 1
+
+    if (selectedEntity.playerMineProgress === MINE_RATE) {
+      console.log('TODO mine', selectedEntity.type)
+      selectedEntity.playerMineProgress = 0
+      draft.selection.mine = false
+    }
+  }
 }

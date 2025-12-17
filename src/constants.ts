@@ -7,3 +7,5 @@ export const BG_COLOR = '#0f172a'
 
 export const TICK_RATE = 30
 export const TICK_DURATION = (1 / 60) * 1000 // in millis
+
+export const MINE_RATE = TICK_RATE

@@ -42,7 +42,7 @@ export function usePointerInput(
       ) {
         isDoubleTapDrag.current = true
         updateState((draft) => {
-          draft.selectedEntityId = null
+          draft.selection = null
         })
       }
     }
@@ -128,7 +128,10 @@ export function usePointerInput(
               entity.x === targetTileX &&
               entity.y === targetTileY
             ) {
-              draft.selectedEntityId = entity.id
+              draft.selection = {
+                entityId: entity.id,
+                mine: false,
+              }
               break
             }
           }

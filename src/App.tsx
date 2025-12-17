@@ -1,5 +1,6 @@
 import { useLatest } from 'ahooks'
 import { useMemo } from 'react'
+import invariant from 'tiny-invariant'
 import { useImmer } from 'use-immer'
 import { AppCanvas } from './components/AppCanvas'
 import { createGameLoopCallback } from './game/createGameLoopCallback'
@@ -37,8 +38,8 @@ export function App() {
 
   const selectedEntity = useMemo(
     () =>
-      state.selectedEntityId
-        ? state.entities[state.selectedEntityId]
+      state.selection
+        ? state.entities[state.selection.entityId]
         : null,
     [state],
   )
@@ -62,13 +63,17 @@ export function App() {
           </span>
         </div>
         <div className="absolute bottom-0 w-full">
-          <div className="flex justify-center">
+          <div className="flex justify-center p-2">
             {selectedEntity && (
               <button
-                className="pointer-events-auto"
+                className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50"
                 onClick={() => {
-                  console.log('TODO', selectedEntity.type)
+                  updateState((draft) => {
+                    invariant(draft.selection)
+                    draft.selection.mine = true
+                  })
                 }}
+                disabled={state.selection?.mine}
               >
                 Mine
               </button>

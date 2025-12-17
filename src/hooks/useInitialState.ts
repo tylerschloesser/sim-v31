@@ -23,6 +23,6 @@ export function useInitialState(): AppState {
     nextEntityId,
     entities,
     pointer: null,
-    selectedEntityId: null,
+    selection: null,
   }
 }

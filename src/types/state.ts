@@ -24,6 +24,11 @@ export interface SingleTapDragPointer {
   dy: number
 }
 
+export interface EntitySelection {
+  entityId: string
+  mine: boolean
+}
+
 export interface AppState {
   tick: number
   player: {
@@ -35,5 +40,5 @@ export interface AppState {
     | SingleTapDragPointer
     | DoubleTapDragPointer
     | null
-  selectedEntityId: string | null
+  selection: EntitySelection | null
 }
