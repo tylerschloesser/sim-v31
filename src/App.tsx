@@ -33,13 +33,39 @@ export function App() {
   const width = window.innerWidth
   const height = window.innerHeight
 
+  const selectedEntity = useMemo(
+    () =>
+      state.selectedEntityId
+        ? state.entities[state.selectedEntityId]
+        : null,
+    [state],
+  )
+
   return (
     <>
-      <AppCanvas
-        state={state}
-        width={width}
-        height={height}
-      />
+      <div className="absolute">
+        <AppCanvas
+          state={state}
+          width={width}
+          height={height}
+        />
+      </div>
+      <div className="absolute w-full h-full pointer-events-none">
+        <div className="absolute bottom-0 w-full">
+          <div className="flex justify-center">
+            {selectedEntity && (
+              <button
+                className="pointer-events-auto"
+                onClick={() => {
+                  console.log('TODO', selectedEntity.type)
+                }}
+              >
+                Test
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     </>
   )
 }

@@ -23,6 +23,13 @@ export function usePointerInput(
 
   useEffect(() => {
     const handlePointerDown = (e: PointerEvent) => {
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.closest('button')
+      ) {
+        return
+      }
+
       const now = Date.now()
       pointerDownTime.current = now
       startPos.current = { x: e.clientX, y: e.clientY }
