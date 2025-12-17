@@ -1,3 +1,4 @@
+import { useLatest } from 'ahooks'
 import { useMemo } from 'react'
 import { useImmer } from 'use-immer'
 import { EntityContainer } from './components/EntityContainer'
@@ -21,6 +22,7 @@ export function App() {
   const initialState = useInitialState()
   const [state, updateState] =
     useImmer<AppState>(initialState)
+  const stateRef = useLatest(state)
 
   const keyboard = useKeyboardInput()
   const pointer = usePointerInput(updateState)
@@ -30,6 +32,7 @@ export function App() {
       createGameLoopCallback({
         keyboard,
         pointer,
+        stateRef,
         updateState,
       }),
     [keyboard, pointer, updateState],

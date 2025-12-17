@@ -13,6 +13,7 @@ interface GameLoopDeps {
       distance: number
     }
   }
+  stateRef: React.RefObject<AppState>
   updateState: Updater<AppState>
 }
 
