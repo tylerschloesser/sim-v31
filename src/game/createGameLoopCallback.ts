@@ -31,10 +31,18 @@ export function createGameLoopCallback(deps: GameLoopDeps) {
 
     let speed
     if (dx === 0 && dy === 0) {
-      // Pointer/touch input
+      // Pointer/touch input (clamped to 8 directions)
       const pointerDir = pointer.getDirection()
-      dx += pointerDir.dx
-      dy += pointerDir.dy
+      if (pointerDir.distance > 0) {
+        const angle = Math.atan2(
+          pointerDir.dy,
+          pointerDir.dx,
+        )
+        const snapped =
+          Math.round(angle / (Math.PI / 4)) * (Math.PI / 4)
+        dx = Math.cos(snapped)
+        dy = Math.sin(snapped)
+      }
       speed =
         pointerDir.distance > 0
           ? Math.pow(
