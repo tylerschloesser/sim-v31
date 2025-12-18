@@ -57,6 +57,17 @@ export function App() {
             {Math.floor(state.player.position.x)},
             {Math.floor(state.player.position.y)}
           </span>
+          &middot;
+          <span>
+            {Object.entries(state.player.inventory)
+              .map(
+                ([entityType, amount]) =>
+                  `${entityType}:${amount}`,
+              )
+              .join(',')}
+            {Object.keys(state.player.inventory).length ===
+              0 && 'empty'}
+          </span>
         </div>
         <div className="absolute bottom-0 w-full">
           <div className="flex justify-center p-2">

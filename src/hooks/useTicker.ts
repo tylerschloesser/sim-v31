@@ -60,7 +60,6 @@ function tick(draft: AppState): void {
       inventoryAdd(
         draft.player.inventory,
         selectedEntity.type,
-        1,
       )
       selectedEntity.playerMineProgress = 0
       draft.selection.mine = false
