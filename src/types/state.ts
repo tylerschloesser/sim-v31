@@ -10,8 +10,27 @@ interface EntityBase<T extends EntityType> {
   type: T
   x: number
   y: number
+}
+
+interface EntityConfig {
+  fill: string
   width: number
   height: number
+}
+
+export const ENTITY_CONFIGS: Record<
+  EntityType,
+  EntityConfig
+> = {
+  tree: { fill: 'green', width: 1, height: 1 },
+  coal: { fill: 'black', width: 1, height: 1 },
+  iron: { fill: 'cyan', width: 1, height: 1 },
+  stone: { fill: 'silver', width: 1, height: 1 },
+  'furnace-placeholder': {
+    fill: 'pink',
+    width: 2,
+    height: 2,
+  },
 }
 
 interface ResourceEntityBase<

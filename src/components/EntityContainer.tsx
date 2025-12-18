@@ -1,6 +1,6 @@
 import React from 'react'
 import { TILE_SIZE } from '../constants'
-import type { Entity } from '../types/state'
+import { ENTITY_CONFIGS, type Entity } from '../types/state'
 
 export interface EntityContainerProps {
   entity: Entity
@@ -14,38 +14,16 @@ export const EntityContainer = React.memo(
     entity,
     selected,
   }: EntityContainerProps) {
-    let fill: string
-    switch (entity.type) {
-      case 'tree': {
-        fill = 'green'
-        break
-      }
-      case 'coal': {
-        fill = 'black'
-        break
-      }
-      case 'iron': {
-        fill = 'cyan'
-        break
-      }
-      case 'stone': {
-        fill = 'silver'
-        break
-      }
-      case 'furnace-placeholder': {
-        fill = 'pink'
-        break
-      }
-    }
-
+    const { fill, width, height } =
+      ENTITY_CONFIGS[entity.type]
     return (
       <g
         transform={`translate(${[entity.x * TILE_SIZE, entity.y * TILE_SIZE].join(' ')})`}
       >
         {selected && (
           <rect
-            width={TILE_SIZE * entity.width}
-            height={TILE_SIZE * entity.height}
+            width={TILE_SIZE * width}
+            height={TILE_SIZE * height}
             stroke="yellow"
             strokeWidth={2}
           />
@@ -53,8 +31,8 @@ export const EntityContainer = React.memo(
         <rect
           x={PADDING}
           y={PADDING}
-          width={entity.width * TILE_SIZE - PADDING * 2}
-          height={entity.height * TILE_SIZE - PADDING * 2}
+          width={width * TILE_SIZE - PADDING * 2}
+          height={height * TILE_SIZE - PADDING * 2}
           fill={fill}
           stroke="rgba(255, 255, 255, .5)"
           strokeWidth={2}
