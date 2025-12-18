@@ -13,3 +13,10 @@ export function inventoryAdd(
     inventory[entityType] = (inventory[entityType] ?? 0) + amount
   }
 }
+
+export function inventoryCount(
+  inventory: Inventory,
+  entityType: EntityType,
+): number {
+  return inventory[entityType] ?? 0
+}

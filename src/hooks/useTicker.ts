@@ -8,7 +8,10 @@ import {
   type AppState,
 } from '../types/state'
 import { invariant } from '../utils/invariant'
-import { inventoryAdd } from '@/utils/inventory'
+import {
+  inventoryAdd,
+  inventoryCount,
+} from '@/utils/inventory'
 
 export function useTicker(updateState: Updater<AppState>) {
   const lastTickTime = useRef<number | null>(null)
@@ -68,5 +71,16 @@ function tick(draft: AppState): void {
       selectedEntity.playerMineProgress = 0
       draft.cursor.mine = Math.max(draft.cursor.mine - 1, 0)
     }
+  }
+
+  if (
+    draft.mission === 'mine-5-stone' &&
+    inventoryCount(draft.player.inventory, 'stone') >= 5
+  ) {
+    draft.cursor = {
+      type: 'place-entity',
+      entityType: 'furnace-placeholder',
+    }
+    draft.mission = null
   }
 }
