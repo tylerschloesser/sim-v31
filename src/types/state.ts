@@ -74,9 +74,12 @@ export type MissionName =
   | 'mine-1-coal'
   | 'smelt-1-iron-plate'
 
+export type Inventory = Partial<Record<EntityType, number>>
+
 export interface AppState {
   tick: number
   player: {
+    inventory: Inventory
     position: { x: number; y: number }
   }
   nextEntityId: number

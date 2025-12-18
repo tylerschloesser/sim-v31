@@ -51,6 +51,7 @@ export function useInitialState(): AppState {
   return {
     tick: 0,
     player: {
+      inventory: {},
       position: { x: 0, y: 0 },
     },
     nextEntityId,
