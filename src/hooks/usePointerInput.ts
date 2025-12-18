@@ -43,7 +43,7 @@ export function usePointerInput(
       ) {
         isDoubleTapDrag.current = true
         updateState((draft) => {
-          draft.selection = null
+          draft.cursor = null
         })
       }
     }
@@ -126,7 +126,8 @@ export function usePointerInput(
             targetPositionY,
           )
           if (closest) {
-            draft.selection = {
+            draft.cursor = {
+              type: 'select-entity',
               entityId: closest.entity.id,
               mine: 0,
             }

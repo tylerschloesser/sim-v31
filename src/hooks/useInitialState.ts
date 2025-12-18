@@ -57,6 +57,6 @@ export function useInitialState(): AppState {
     nextEntityId,
     entities,
     pointer: null,
-    selection: null,
+    cursor: null,
   }
 }

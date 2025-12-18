@@ -35,8 +35,8 @@ export function AppCanvas({
     ((-playerPixelY + screenCenterY) % TILE_SIZE) -
     TILE_SIZE
 
-  const selectedEntity = state.selection
-    ? state.entities[state.selection.entityId]
+  const selectedEntity = state.cursor
+    ? state.entities[state.cursor.entityId]
     : null
 
   return (
@@ -81,9 +81,7 @@ export function AppCanvas({
           <EntityContainer
             key={entity.id}
             entity={entity}
-            selected={
-              state.selection?.entityId === entity.id
-            }
+            selected={state.cursor?.entityId === entity.id}
           />
         ))}
         {selectedEntity && (

@@ -63,7 +63,8 @@ export interface SingleTapDragPointer {
   dy: number
 }
 
-export interface EntitySelection {
+export interface SelectEntityCursor {
+  type: 'select-entity'
   entityId: string
   mine: number
 }
@@ -88,5 +89,5 @@ export interface AppState {
     | SingleTapDragPointer
     | DoubleTapDragPointer
     | null
-  selection: EntitySelection | null
+  cursor: SelectEntityCursor | null
 }

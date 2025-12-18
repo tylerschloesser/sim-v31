@@ -91,8 +91,8 @@ function MineButton({
   state,
   updateState,
 }: MineButtonProps) {
-  const selectedEntity = state.selection
-    ? state.entities[state.selection.entityId]
+  const selectedEntity = state.cursor
+    ? state.entities[state.cursor.entityId]
     : null
   if (
     !selectedEntity ||
@@ -105,8 +105,8 @@ function MineButton({
       className="pointer-events-auto py-2 px-4 border-white border relative"
       onClick={() => {
         updateState((draft) => {
-          invariant(draft.selection)
-          draft.selection.mine += 1
+          invariant(draft.cursor)
+          draft.cursor.mine += 1
         })
       }}
     >
@@ -118,8 +118,8 @@ function MineButton({
       />
       <span className="relative">
         <span>Mine</span>
-        {state.selection && state.selection.mine > 1 && (
-          <span> ({state.selection.mine})</span>
+        {state.cursor && state.cursor.mine > 1 && (
+          <span> ({state.cursor.mine})</span>
         )}
       </span>
     </button>

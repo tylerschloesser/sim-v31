@@ -46,9 +46,9 @@ export function useTicker(updateState: Updater<AppState>) {
 function tick(draft: AppState): void {
   draft.tick += 1
 
-  if (draft.selection?.mine) {
+  if (draft.cursor?.mine) {
     const selectedEntity =
-      draft.entities[draft.selection.entityId]
+      draft.entities[draft.cursor.entityId]
 
     invariant(isResourceEntity(selectedEntity))
     invariant(selectedEntity.playerMineProgress >= 0)
@@ -62,10 +62,7 @@ function tick(draft: AppState): void {
         selectedEntity.type,
       )
       selectedEntity.playerMineProgress = 0
-      draft.selection.mine = Math.max(
-        draft.selection.mine - 1,
-        0,
-      )
+      draft.cursor.mine = Math.max(draft.cursor.mine - 1, 0)
     }
   }
 }
