@@ -13,6 +13,7 @@ import {
 import { EntityContainer } from './EntityContainer'
 import { JoystickContainer } from './JoystickContainer'
 import { SelectIndicator } from './SelectIndicator'
+import { PlaceIndicator } from '@/components/PlaceIndicator'
 
 export interface AppCanvasProps {
   state: AppState
@@ -104,6 +105,7 @@ export function AppCanvas({
           fill={PLAYER_COLOR}
         />
         <SelectIndicator state={state} />
+        <PlaceIndicator state={state} />
       </g>
       {state.pointer?.type === 'single-tap-drag' && (
         <JoystickContainer pointer={state.pointer} />
