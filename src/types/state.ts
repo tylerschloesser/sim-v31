@@ -78,6 +78,7 @@ export function isSelectEntityCursor(
 export interface PlaceEntityCursor {
   type: 'place-entity'
   entityType: EntityType
+  position: { x: number; y: number }
 }
 
 export function isPlaceEntityCursor(

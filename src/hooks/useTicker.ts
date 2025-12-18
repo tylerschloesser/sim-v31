@@ -77,10 +77,25 @@ function tick(draft: AppState): void {
     draft.mission === 'mine-5-stone' &&
     inventoryCount(draft.player.inventory, 'stone') >= 5
   ) {
-    console.log('mission complete')
+    let position: { x: number; y: number }
+    if (isSelectEntityCursor(draft.cursor)) {
+      const selectedEntity =
+        draft.entities[draft.cursor.entityId]
+      position = {
+        x: selectedEntity.x,
+        y: selectedEntity.y,
+      }
+    } else {
+      position = {
+        x: draft.player.position.x,
+        y: draft.player.position.y,
+      }
+    }
+
     draft.cursor = {
       type: 'place-entity',
       entityType: 'furnace-placeholder',
+      position,
     }
     draft.mission = null
   }
