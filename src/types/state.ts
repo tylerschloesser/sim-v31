@@ -65,7 +65,7 @@ export interface SingleTapDragPointer {
 
 export interface EntitySelection {
   entityId: string
-  mine: boolean
+  mine: number
 }
 
 export type MissionName =

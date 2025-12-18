@@ -62,7 +62,10 @@ function tick(draft: AppState): void {
         selectedEntity.type,
       )
       selectedEntity.playerMineProgress = 0
-      draft.selection.mine = false
+      draft.selection.mine = Math.max(
+        draft.selection.mine - 1,
+        0,
+      )
     }
   }
 }

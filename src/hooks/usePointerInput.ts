@@ -128,7 +128,7 @@ export function usePointerInput(
           if (closest) {
             draft.selection = {
               entityId: closest.entity.id,
-              mine: false,
+              mine: 0,
             }
           }
         }

@@ -102,22 +102,26 @@ function MineButton({
   }
   return (
     <button
-      className="pointer-events-auto py-2 px-4 border-white border disabled:opacity-50 relative"
+      className="pointer-events-auto py-2 px-4 border-white border relative"
       onClick={() => {
         updateState((draft) => {
           invariant(draft.selection)
-          draft.selection.mine = true
+          draft.selection.mine += 1
         })
       }}
-      disabled={state.selection?.mine}
     >
       <span
-        className="absolute inset-0 bg-green-400 origin-left"
+        className="absolute inset-0 bg-green-400 origin-left opacity-50"
         style={{
           scale: `${selectedEntity.playerMineProgress / MINE_RATE} 1`,
         }}
       />
-      <span className="relative">Mine</span>
+      <span className="relative">
+        <span>Mine</span>
+        {state.selection && state.selection.mine > 1 && (
+          <span> ({state.selection.mine})</span>
+        )}
+      </span>
     </button>
   )
 }
