@@ -2,13 +2,13 @@ import { PLAYER_COLOR, TILE_SIZE } from '../constants'
 import type { AppState } from '../types/state'
 import { findClosestEntity } from '../utils/pointer'
 
-interface TargetIndicatorProps {
+interface SelectIndicatorProps {
   state: AppState
 }
 
-export function TargetIndicator({
+export function SelectIndicator({
   state,
-}: TargetIndicatorProps) {
+}: SelectIndicatorProps) {
   if (state.pointer?.type !== 'double-tap-drag') {
     return null
   }
