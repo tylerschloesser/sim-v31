@@ -69,6 +69,19 @@ export interface SelectEntityCursor {
   mine: number
 }
 
+export function isSelectEntityCursor(
+  cursor: Cursor | null,
+): cursor is SelectEntityCursor {
+  return cursor?.type === 'select-entity'
+}
+
+export interface PlaceEntityCursor {
+  type: 'place-entity'
+  entityType: EntityType
+}
+
+export type Cursor = SelectEntityCursor | PlaceEntityCursor
+
 export type MissionName =
   | 'mine-5-stone'
   | 'mine-1-iron'
@@ -89,5 +102,5 @@ export interface AppState {
     | SingleTapDragPointer
     | DoubleTapDragPointer
     | null
-  cursor: SelectEntityCursor | null
+  cursor: Cursor | null
 }

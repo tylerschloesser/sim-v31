@@ -4,6 +4,7 @@ import type { Updater } from 'use-immer'
 import { MINE_RATE, TICK_DURATION } from '../constants'
 import {
   isResourceEntity,
+  isSelectEntityCursor,
   type AppState,
 } from '../types/state'
 import { invariant } from '../utils/invariant'
@@ -46,7 +47,10 @@ export function useTicker(updateState: Updater<AppState>) {
 function tick(draft: AppState): void {
   draft.tick += 1
 
-  if (draft.cursor?.mine) {
+  if (
+    isSelectEntityCursor(draft.cursor) &&
+    draft.cursor.mine > 0
+  ) {
     const selectedEntity =
       draft.entities[draft.cursor.entityId]
 

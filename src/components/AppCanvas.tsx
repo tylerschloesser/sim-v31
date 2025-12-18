@@ -6,7 +6,10 @@ import {
   PLAYER_RADIUS,
   TILE_SIZE,
 } from '../constants'
-import type { AppState } from '../types/state'
+import {
+  isSelectEntityCursor,
+  type AppState,
+} from '../types/state'
 import { EntityContainer } from './EntityContainer'
 import { JoystickContainer } from './JoystickContainer'
 import { TargetIndicator } from './TargetIndicator'
@@ -35,7 +38,7 @@ export function AppCanvas({
     ((-playerPixelY + screenCenterY) % TILE_SIZE) -
     TILE_SIZE
 
-  const selectedEntity = state.cursor
+  const selectedEntity = isSelectEntityCursor(state.cursor)
     ? state.entities[state.cursor.entityId]
     : null
 
@@ -81,7 +84,7 @@ export function AppCanvas({
           <EntityContainer
             key={entity.id}
             entity={entity}
-            selected={state.cursor?.entityId === entity.id}
+            selected={entity.id === selectedEntity?.id}
           />
         ))}
         {selectedEntity && (

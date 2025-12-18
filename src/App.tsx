@@ -11,6 +11,7 @@ import { usePointerInput } from './hooks/usePointerInput'
 import { useTicker } from './hooks/useTicker'
 import {
   isResourceEntity,
+  isSelectEntityCursor,
   type AppState,
 } from './types/state'
 import { invariant } from './utils/invariant'
@@ -91,7 +92,7 @@ function MineButton({
   state,
   updateState,
 }: MineButtonProps) {
-  const selectedEntity = state.cursor
+  const selectedEntity = isSelectEntityCursor(state.cursor)
     ? state.entities[state.cursor.entityId]
     : null
   if (
@@ -105,7 +106,7 @@ function MineButton({
       className="pointer-events-auto py-2 px-4 border-white border relative"
       onClick={() => {
         updateState((draft) => {
-          invariant(draft.cursor)
+          invariant(isSelectEntityCursor(draft.cursor))
           draft.cursor.mine += 1
         })
       }}
@@ -118,9 +119,10 @@ function MineButton({
       />
       <span className="relative">
         <span>Mine</span>
-        {state.cursor && state.cursor.mine > 1 && (
-          <span> ({state.cursor.mine})</span>
-        )}
+        {isSelectEntityCursor(state.cursor) &&
+          state.cursor.mine > 1 && (
+            <span> ({state.cursor.mine})</span>
+          )}
       </span>
     </button>
   )
