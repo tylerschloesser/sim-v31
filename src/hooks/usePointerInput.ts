@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import type { Updater } from 'use-immer'
 import { TILE_SIZE } from '../constants'
-import type { AppState } from '../types/state'
+import {
+  isPlaceEntityCursor,
+  type AppState,
+} from '../types/state'
 import { findClosestEntity } from '../utils/pointer'
 
 const DRAG_THRESHOLD = 20 // pixels before movement triggers
@@ -43,6 +46,9 @@ export function usePointerInput(
       ) {
         isDoubleTapDrag.current = true
         updateState((draft) => {
+          if (isPlaceEntityCursor(draft.cursor)) {
+            return
+          }
           draft.cursor = null
         })
       }
@@ -112,7 +118,10 @@ export function usePointerInput(
       }
 
       updateState((draft) => {
-        if (draft.pointer?.type === 'double-tap-drag') {
+        if (
+          draft.pointer?.type === 'double-tap-drag' &&
+          !isPlaceEntityCursor(draft.cursor)
+        ) {
           const targetPositionX =
             draft.player.position.x +
             draft.pointer.dx / TILE_SIZE

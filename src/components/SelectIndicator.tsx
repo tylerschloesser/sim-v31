@@ -1,5 +1,8 @@
 import { PLAYER_COLOR, TILE_SIZE } from '../constants'
-import type { AppState } from '../types/state'
+import {
+  isPlaceEntityCursor,
+  type AppState,
+} from '../types/state'
 import { findClosestEntity } from '../utils/pointer'
 
 interface SelectIndicatorProps {
@@ -9,7 +12,10 @@ interface SelectIndicatorProps {
 export function SelectIndicator({
   state,
 }: SelectIndicatorProps) {
-  if (state.pointer?.type !== 'double-tap-drag') {
+  if (
+    state.pointer?.type !== 'double-tap-drag' ||
+    isPlaceEntityCursor(state.cursor)
+  ) {
     return null
   }
 
