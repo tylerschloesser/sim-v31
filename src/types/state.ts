@@ -88,7 +88,7 @@ export function isPlaceEntityCursor(
 
 export type Cursor = SelectEntityCursor | PlaceEntityCursor
 
-export type MissionName =
+export type Mission =
   | 'mine-5-stone'
   | 'mine-1-iron'
   | 'mine-1-coal'
@@ -109,4 +109,5 @@ export interface AppState {
     | DoubleTapDragPointer
     | null
   cursor: Cursor | null
+  mission: Mission | null
 }

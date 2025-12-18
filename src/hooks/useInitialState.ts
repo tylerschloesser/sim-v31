@@ -58,5 +58,6 @@ export function useInitialState(): AppState {
     entities,
     pointer: null,
     cursor: null,
+    mission: 'mine-5-stone',
   }
 }
