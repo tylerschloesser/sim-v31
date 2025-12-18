@@ -7,6 +7,7 @@ import {
   type AppState,
 } from '../types/state'
 import { invariant } from '../utils/invariant'
+import { inventoryAdd } from '@/utils/inventory'
 
 export function useTicker(updateState: Updater<AppState>) {
   const lastTickTime = useRef<number | null>(null)
@@ -56,7 +57,11 @@ function tick(draft: AppState): void {
     selectedEntity.playerMineProgress += 1
 
     if (selectedEntity.playerMineProgress === MINE_RATE) {
-      console.log('TODO mine', selectedEntity.type)
+      inventoryAdd(
+        draft.player.inventory,
+        selectedEntity.type,
+        1,
+      )
       selectedEntity.playerMineProgress = 0
       draft.selection.mine = false
     }
