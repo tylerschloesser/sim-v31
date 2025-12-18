@@ -80,6 +80,12 @@ export interface PlaceEntityCursor {
   entityType: EntityType
 }
 
+export function isPlaceEntityCursor(
+  cursor: Cursor | null,
+): cursor is PlaceEntityCursor {
+  return cursor?.type === 'place-entity'
+}
+
 export type Cursor = SelectEntityCursor | PlaceEntityCursor
 
 export type MissionName =
