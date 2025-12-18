@@ -10,6 +10,7 @@ import { usePointerInput } from './hooks/usePointerInput'
 import { useTicker } from './hooks/useTicker'
 import { type AppState } from './types/state'
 import { MineButton } from '@/components/MineButton'
+import { PlaceButton } from '@/components/PlaceButton'
 
 export function App() {
   const initialState = useInitialState()
@@ -68,6 +69,10 @@ export function App() {
         <div className="absolute bottom-0 w-full">
           <div className="flex justify-center p-2">
             <MineButton
+              state={state}
+              updateState={updateState}
+            />
+            <PlaceButton
               state={state}
               updateState={updateState}
             />
